@@ -1193,7 +1193,7 @@
       }
 
       function getRandomHighRarity() {
-        return Math.random() <= (3 / 11.5) ? 'birthday' : 3;
+        return Math.random() <= 0.2 ? 'birthday' : 3;
       }
 
       function getRandomRarity() {
@@ -1242,6 +1242,13 @@
             pullsSinceBirthday += 1;
           }
           results[count - 1] = card;
+        }
+
+        if (count === 10) {
+          for (let i = results.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [results[i], results[j]] = [results[j], results[i]];
+          }
         }
 
         return results;
