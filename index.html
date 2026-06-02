@@ -348,6 +348,8 @@
     @keyframes popIn{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
     .gacha-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0}
     .gacha-card-item{aspect-ratio:1;border:3px solid #FFF1B8;border-radius:12px;overflow:hidden;background:#f5f5f5;animation:slideIn .3s ease-out forwards;opacity:0;display:flex;align-items:center;justify-content:center}
+    .gacha-card-item.rarity-2{border-color:#C0C5CC}
+    .gacha-card-item.rarity-birthday{border-color:#FF6B81}
     .gacha-card-item img{width:100%;height:100%;object-fit:cover;display:block}
     @keyframes slideIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
   </style>
@@ -1268,7 +1270,7 @@
             // Render single pull inside the same 5-column grid so it appears top-left
             const card = cards[0];
             const cardEl = document.createElement('div');
-            cardEl.className = 'gacha-card-item';
+            cardEl.className = `gacha-card-item rarity-${card.rarity}`;
             cardEl.style.animationDelay = `0s`;
             cardEl.innerHTML = `<img src="${card.src}" alt="卡片1">`;
             grid.appendChild(cardEl);
@@ -1277,7 +1279,7 @@
             // Render in given order (no sorting) so results keep original sequence
             cards.forEach((card, idx) => {
               const cardEl = document.createElement('div');
-              cardEl.className = 'gacha-card-item';
+              cardEl.className = `gacha-card-item rarity-${card.rarity}`;
               cardEl.style.animationDelay = `${idx * 0.1}s`;
               cardEl.innerHTML = `<img src="${card.src}" alt="卡片${idx + 1}">`;
               grid.appendChild(cardEl);
