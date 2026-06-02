@@ -1180,8 +1180,7 @@
         }
       };
 
-      let pullCount = 0;
-      let guaranteedPity = false;
+      let pullsSinceBirthday = 0;
 
       function getRandomCard(rarity) {
         if (rarity === 2) {
@@ -1191,11 +1190,14 @@
         }
       }
 
-      function getRandomRarity(pullNum = null) {
+      function getRandomHighRarity() {
+        return Math.random() <= (3 / 11.5) ? 'birthday' : 3;
+      }
+
+      function getRandomRarity() {
         const rand = Math.random() * 100;
-        if (pullNum === 10 && !guaranteedPity) {
-          guaranteedPity = true;
-          return Math.random() > 0.5 ? 3 : 'birthday';
+        if (pullsSinceBirthday >= 99) {
+          return 'birthday';
         }
         if (rand <= 3) return 'birthday';
         if (rand <= 11.5) return 3;
@@ -1204,28 +1206,40 @@
 
       function gachaPull(count = 1, year) {
         const results = [];
-        pullCount += count;
+        let hasHighRarity = false;
 
         for (let i = 0; i < count; i++) {
-          let rarity = getRandomRarity(count === 10 ? 10 : null);
-
-          if (pullCount % 100 === 0) {
-            rarity = 'birthday';
-          }
+          const rarity = getRandomRarity();
 
           let card;
           if (rarity === 'birthday') {
             card = { rarity: 'birthday', src: cardData.birthday[year] };
-            guaranteedPity = false;
+            pullsSinceBirthday = 0;
+            hasHighRarity = true;
+          } else if (rarity === 3) {
+            card = { rarity: 3, src: getRandomCard(3) };
+            pullsSinceBirthday += 1;
+            hasHighRarity = true;
           } else {
-            card = { rarity, src: getRandomCard(rarity) };
+            card = { rarity: 2, src: getRandomCard(2) };
+            pullsSinceBirthday += 1;
           }
 
           results.push(card);
         }
 
-        if (count === 10) {
-          guaranteedPity = false;
+        if (count === 10 && !hasHighRarity) {
+          pullsSinceBirthday -= 1;
+          const rarity = getRandomHighRarity();
+          const card = rarity === 'birthday'
+            ? { rarity: 'birthday', src: cardData.birthday[year] }
+            : { rarity: 3, src: getRandomCard(3) };
+          if (rarity === 'birthday') {
+            pullsSinceBirthday = 0;
+          } else {
+            pullsSinceBirthday += 1;
+          }
+          results[count - 1] = card;
         }
 
         return results;
