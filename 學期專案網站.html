@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>天馬咲希 個人網站</title>
+  <style>
+    :root {
+      color-scheme: light;
+      color: #222;
+      background: #f5f3ee;
+      font-family: "Helvetica Neue", "Segoe UI", "Microsoft JhengHei", sans-serif;
+      line-height: 1.5;
+      font-weight: 400;
+      --card: #ffffff;
+      --line: rgba(34,34,34,0.08);
+      --accent: #ffcc66;
+      --text: #222;
+      --muted: #555;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #fffaf0 0%, #f4efe8 100%);
+      color: var(--text);
+      font-family: inherit;
+    }
+    img, picture, video { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(1200px, calc(100% - 32px)); margin: 0 auto; padding: 0 16px; }
+    .hero {
+      padding: 60px 0 40px;
+      text-align: center;
+      position: relative;
+      background-image: url('https://pjsekai.gamedbs.jp/image/chara/member/1715210488391_oivu0x2g.webp');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      color: #111;
+      overflow: hidden;
+      min-height: 360px;
+      display: flex;
+      align-items: center;
+    }
+    .hero::before{
+      content: '';
+      position: absolute;
+      inset: 0;
+      /* 半透明反白 overlay，提高整體明亮度但保留細節 */
+      background: linear-gradient(rgba(255,255,255,0.54), rgba(255,255,255,0.38));
+      pointer-events: none;
+    }
+    .hero .container{ position: relative; z-index: 1; }
+    .hero h1 { margin: 0 0 12px; font-size: clamp(2.4rem, 5.5vw, 4.2rem); letter-spacing: 0.01em; color: #000; }
+    .hero .big-line,
+    .hero .sub-line {
+      margin: 8px 0 6px;
+      font-size: clamp(1.8rem, 4.2vw, 3.2rem);
+      color: #ffd84d;
+      font-weight: 700;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.38);
+    }
+    .hero p { margin: 0 auto; max-width: 42rem; color: rgba(0,0,0,0.85); font-size: 1.05rem; line-height: 1.7; }
+    .hero-disclaimer { margin: 24px auto 0; padding: 20px; max-width: 780px; border-radius: 18px; background: rgba(255,255,255,0.92); border: 1px solid rgba(34,34,34,0.08); box-shadow: 0 18px 40px rgba(0,0,0,0.06); color: #111; text-align: left; }
+    .hero-disclaimer { margin: 24px auto 0; padding: 20px; max-width: 780px; border-radius: 18px; background: rgba(255,255,255,0.84); border: 1px solid rgba(34,34,34,0.08); box-shadow: 0 18px 40px rgba(0,0,0,0.06); color: #444; text-align: left; }
+    .card { background: rgba(255,255,255,0.86); border-radius: 24px; border: 1px solid rgba(34,34,34,.12); padding: 24px; margin: 24px 0; box-shadow: 0 16px 40px rgba(0,0,0,.06); }
+    .card h2 { margin-top: 0; font-size: 1.75rem; }
+    .grid { display: grid; gap: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .profile { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .profile-box { position: relative; overflow: hidden; border-radius: 24px; }
+    .profile-main {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      object-fit: cover;
+      border-radius: 24px;
+      z-index: 1;
+      position: relative;
+      transition: opacity .35s ease;
+    }
+    .profile-hover {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .35s ease;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .profile-box:hover .profile-hover { opacity: 1; }
+    .profile-box:hover .profile-main { opacity: 0; }
+    .meta { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; color: #444; }
+    .meta li { display: flex; gap: 8px; align-items: baseline; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(34,34,34,.12); border-radius: 999px; background: #fff; color: #222; padding: 12px 20px; cursor: pointer; transition: transform .2s, box-shadow .2s, background-color .2s, color .2s; }
+    .btn.star1 { background: #daf7f0; color: #113740; }
+    .btn.star2 { background: #e7eef7; color: #21334d; }
+    .btn.star3 { background: #fff7b8; color: #3f3300; }
+    .btn.star4 { background: linear-gradient(135deg, #d8f7d8 0%, #fff7b3 38%, #ffd6e6 68%, #c8d8ff 100%); color: #1f2f4f; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(0,0,0,.1); }
+    .btn.active, .btn:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(255,214,102,.35); }
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .gallery-preview { margin-top: 18px; }
+    .gallery-images { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; justify-content: flex-start; }
+    .slot { min-width: 160px; min-height: 160px; flex: 1 1 160px; border-radius: 18px; background: rgba(255,255,255,.95); display: none; flex-direction: column; align-items: flex-start; justify-content: flex-start; text-align: center; color: rgba(34,34,34,.75); font-weight: 700; padding: 14px; }
+    .slot.active { display: flex; }
+    .gallery-card { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; background: rgba(255,255,255,.95); border-radius: 18px; padding: 14px; box-shadow: 0 8px 20px rgba(0,0,0,.05); max-width: 100%; margin: 0 auto; }
+    .gallery-card a { display: block; width: 100%; position: relative; cursor: pointer; overflow: hidden; border-radius: 16px; }
+    .gallery-card a::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,.35); opacity: 0; pointer-events: none; transition: opacity .3s; border-radius: 16px; }
+    .gallery-card a:hover::after { opacity: 1; }
+    .gallery-card img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 16px; }
+    .custom-image-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: 100%; margin-top: 10px; }
+    .custom-card { display: flex; flex-direction: column; gap: 8px; border-radius: 18px; padding: 12px; background: #fff; border: 1px solid rgba(34,34,34,.08); }
+    .custom-card p { margin: 0; font-weight: 600; color: #333; text-align: center; }
+    .custom-card img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 16px; }
+    .toggle-image-button { margin: 0 auto; padding: 8px 12px; border: 1px solid rgba(34,34,34,.12); border-radius: 999px; background: #fff; cursor: pointer; transition: transform .2s, background .2s; }
+    .toggle-image-button:hover { transform: translateY(-1px); background: #fff8e1; }
+    .nav-panel { position: fixed; top: 0; left: 0; width: min(280px, 80vw); height: 100vh; transform: translateX(-100%); transition: transform .3s ease; background: #fff; box-shadow: 16px 0 50px rgba(0,0,0,.12); padding: 28px 18px; z-index: 110; }
+    .nav-panel.open { transform: translateX(0); }
+    .nav-links { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 12px; }
+    .nav-links li { margin: 0; }
+    .nav-links a { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 14px 16px; border: 1px solid rgba(255,221,68,0.35); border-radius: 14px; background: #fff; color: #111; font-weight: 700; text-decoration: none; transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease; }
+    .nav-links a:hover, .nav-links a:focus { background: #fff5c0; color: #000; box-shadow: 0 8px 18px rgba(0,0,0,.08); transform: translateY(-1px); }
+    .nav-links a:active { background: #ffe34a; }
+    .back-to-top-btn { position: fixed; right: 18px; bottom: 18px; z-index: 130; background: #FFDD44; color: #111; border: none; border-radius: 999px; padding: 14px 18px; box-shadow: 0 12px 26px rgba(0,0,0,.18); cursor: pointer; font-weight: 700; transition: transform .2s, box-shadow .2s, background .2s; }
+    .back-to-top-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 26px rgba(0,0,0,.22); }
+    .menu-toggle { position: fixed; top: 18px; right: 18px; width: 48px; height: 48px; border-radius: 50%; border: none; background: rgba(255,241,184,.95); color: #111; cursor: pointer; z-index: 120; box-shadow: 0 14px 30px rgba(0,0,0,.16); }
+    .menu-toggle span { display: block; width: 22px; height: 2px; margin: 5px auto; background: #333; border-radius: 999px; transition: transform .2s; }
+    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.45); backdrop-filter: blur(3px); }
+    .modal[aria-hidden="false"] { display: flex; }
+    .modal-dialog { background: var(--card); padding: 12px; border-radius: 16px; width: auto; max-width: calc(100vw - 40px); max-height: calc(100vh - 40px); overflow: visible; position: relative; box-shadow: 0 18px 32px rgba(0,0,0,.22); }
+    .modal-close { display: flex; position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: none; border-radius: 50%; background: rgba(0,0,0,.72); color: #fff; font-size: 18px; cursor: pointer; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0,0,0,.2); z-index: 10; }
+    .modal-image-wrap { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; padding: 0; overflow: hidden; }
+    .modal-image-wrap img { max-width: calc(100vw - 56px); max-height: calc(100vh - 56px); width: auto; height: auto; display: block; border-radius: 14px; transition: transform .25s ease; cursor: zoom-in; touch-action: none; user-select: none; }
+    .modal-image-wrap img.zoomed { cursor: zoom-out; }
+    .modal-image-close-button { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: none; border-radius: 50%; background: rgba(0,0,0,.72); color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0,0,0,.2); }
+    .activity-item img {
+      max-width: 560px;
+      aspect-ratio: 560/315;
+      height: auto;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(34,34,34,.08);
+      display: block;
+      margin: 0 auto;
+    }
+    /* Ensure events table respects 60/40 split and images stay within their cells */
+    .events-table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+    .events-table td { vertical-align: top; padding: 12px 0; }
+    .events-table td:first-child { width: 60%; }
+    .events-table td:last-child { width: 40%; }
+    .events-table img { max-width: 100%; height: auto; display: block; }
+    /* 讓活動圖的短邊與書下曲方圖一致，並保持行高對齊 */
+    .events-table td:first-child .activity-item,
+    .events-table td:last-child .activity-item,
+    .events-table td:last-child .activity-item.square,
+    .events-table td:last-child .activity-item.no-song {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 315px;
+    }
+    .events-table td:first-child .activity-item img {
+      max-width: 100%;
+      max-height: 315px;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+      margin: 0 auto;
+    }
+    .activity-row {
+      display: flex;
+      align-items: stretch;
+    }
+    .activity-row > td {
+      display: flex;
+      align-items: stretch;
+      padding: 0;
+      border: none;
+    }
+    .activity-row .activity-item {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .activity-row .activity-item img {
+      max-height: 315px;
+      width: auto;
+      max-width: 100%;
+    }
+    td:last-child .activity-item.square img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      max-width: 315px;
+      height: auto;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+    .activity-item p{margin:8px 0 0;font-weight:600;color:#333;text-align:center}
+    .activity-item img{margin:0 auto}
+    /* 右欄書下曲格線樣式 */
+    td:last-child .activity-list{display:grid;gap:0;align-items:start}
+    td:last-child .activity-item{padding:10px 0}
+    td:last-child .activity-item:not(:first-child){border-top:1px solid rgba(34,34,34,.14)}
+    td:last-child .activity-item img {
+      width:315px;
+      height:315px;
+      max-width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:10px;
+      border:1px solid rgba(34,34,34,.08);
+      display:block;
+      margin:0 auto;
+    }
+    @media (max-width:900px) {
+      .activity-item img {
+        max-width:100vw;
+        aspect-ratio:560/315;
+        height:auto;
+      }
+      td:last-child .activity-item img {
+        width:100vw;
+        max-width:100vw;
+        height:auto;
+        aspect-ratio:1/1;
+      }
+    }
+    /* per-row cells */
+    .activity-cell{padding:8px}
+    .activity-cell img{max-width:360px;display:block;margin:0 auto;border-radius:10px}
+    .activity-cell p{margin:8px 0 0;text-align:center;font-weight:600}
+    .book-cell{padding:8px;display:flex;align-items:center;justify-content:center;text-align:center}
+    .book-cell img{max-width:160px;border-radius:8px;display:block;margin:0 auto}
+    .book-cell p{margin:8px 0 0;font-weight:600}
+    .book-list{display:grid;gap:0}
+    .book-item{padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    .book-item + .book-item{border-top:1px solid rgba(34,34,34,.14)}
+    .book-item img{max-width:160px;height:auto;border-radius:8px;border:1px solid rgba(34,34,34,.06);display:block;margin:0 auto}
+    .book-item p{margin:8px 0 0;font-weight:600;color:#333;text-align:center}
+    .filters,.gacha-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.58)}
+    .gacha-year-slot .gacha-controls{border:none;background:transparent;padding:24px 12px;justify-content:center}
+    .gacha-year-slot .gacha-controls .btn{padding:14px 28px;font-size:1.1em;background:#FFDD44;color:#111;border:none;box-shadow:0 10px 20px rgba(0,0,0,.12);}
+    .gacha-year-slot .gacha-controls .btn:hover{background:#ffd63d;}
+    .gallery-images{display:flex;flex-wrap:wrap;gap:12px;min-height:200px;align-items:center;justify-content:flex-start;}
+    .gallery-images .slot{min-width:160px;min-height:160px;flex:1 1 160px;border-radius:18px;background:rgba(255,255,255,.95);display:none;flex-direction:column;align-items:flex-start;justify-content:flex-start;text-align:center;color:rgba(34,34,34,.55);font-weight:700;padding:14px}
+    .gallery-images .slot.active{display:flex}
+    .gallery-card{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;background:rgba(255,255,255,.95);border-radius:18px;padding:14px;box-shadow:0 8px 20px rgba(0,0,0,.05);max-width:calc(50% - 8px);margin:0 auto}
+    .gallery-card a{display:block;width:100%;position:relative;cursor:pointer;overflow:hidden;border-radius:16px}
+    .gallery-card a::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.35);opacity:0;pointer-events:none;transition:opacity .3s;border-radius:16px}
+    .gallery-card a:hover::after{opacity:1}
+    .gallery-card img{width:100%;height:auto;object-fit:cover;border-radius:14px;display:block;transition:filter .3s}
+    .gallery-card p{margin:0;color:var(--text);font-size:0.95rem;line-height:1.4;text-align:center;min-height:48px;display:flex;align-items:center;justify-content:center}
+    .custom-card{position:relative}
+    .custom-card a{display:block;width:100%;position:relative;cursor:pointer;overflow:hidden;border-radius:14px}
+    .custom-card a::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.35);opacity:0;pointer-events:none;transition:opacity .3s;border-radius:14px}
+    .custom-card a:hover::after{opacity:1}
+    .custom-card img{transition:opacity .3s ease, transform .3s ease}
+    .toggle-image-button{position:absolute;right:16px;bottom:16px;padding:8px 12px;border:none;border-radius:999px;background:#FFF1B8;color:#111;font-weight:700;cursor:pointer;transition:background .2s,transform .2s;box-shadow:0 6px 14px rgba(0,0,0,.12)}
+    .toggle-image-button:hover{background:#fff5c3;transform:translateY(-1px)}
+    .custom-image-row{display:flex;gap:16px;margin-top:18px;flex-wrap:wrap;justify-content:flex-start}
+    .custom-image-row .custom-card{flex:0 0 calc(50% - 8px);max-width:calc(50% - 8px);background:rgba(255,255,255,.95);border-radius:18px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 8px 20px rgba(0,0,0,.05);min-width:0}
+    .custom-image-row .custom-card img{width:100%;height:auto;object-fit:cover;border-radius:16px}
+    .custom-image-row .custom-card p{margin:0;color:var(--text);font-size:0.95rem;line-height:1.4;text-align:center;min-height:48px;display:flex;align-items:center;justify-content:center}
+
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid .slot{min-height:240px;border-radius:14px;border:1px dashed rgba(34,34,34,.12);background:rgba(255,255,255,.6)}
+    .site-footer{margin-top:24px;padding:18px 0 28px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+        td:last-child .activity-item.square {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        td:last-child .activity-item.square a {
+          display: block;
+          position: relative;
+        }
+        td:last-child .activity-item.square img.stella-link-img {
+          width: 100%;
+          aspect-ratio: 1/1;
+          max-width: 315px;
+          height: auto;
+          object-fit: cover;
+          display: block;
+          margin: 0 auto;
+          transition: filter 0.3s;
+        }
+        td:last-child .activity-item.square a::after {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(255,255,255,0.35);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s;
+          border-radius: 10px;
+        }
+        td:last-child .activity-item.square a:hover::after {
+          opacity: 1;
+        }
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);backdrop-filter:blur(3px)}
+    .modal[aria-hidden="false"]{display:flex}
+    .modal-dialog{background:var(--card);padding:12px;border-radius:16px;width:auto;max-width:calc(100vw - 40px);max-height:calc(100vh - 40px);overflow:visible;position:relative;box-shadow:0 18px 32px rgba(0,0,0,.22)}
+    .modal-close{display:flex;position:absolute;top:12px;right:12px;width:36px;height:36px;border:none;border-radius:50%;background:rgba(0,0,0,.72);color:#fff;font-size:18px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.2);z-index:10}
+    .modal-image-wrap{position:relative;display:flex;justify-content:center;align-items:center;width:100%;padding:0;overflow:hidden;}
+    .modal-image-wrap img{max-width:calc(100vw - 56px);max-height:calc(100vh - 56px);width:auto;height:auto;display:block;border-radius:14px;transition:transform .25s ease;cursor:zoom-in;touch-action:none;user-select:none;}
+    .modal-image-wrap img.zoomed{cursor:zoom-out;}
+    .modal-image-close-button{position:absolute;top:12px;right:12px;width:36px;height:36px;border:none;border-radius:50%;background:rgba(0,0,0,.72);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.2);}
+    @media (max-width:1200px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:768px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.profile{grid-template-columns:1fr}}
+    @media (max-width:375px){.container{padding:12px}.grid{grid-template-columns:1fr}.hero{padding:44px 0 40px}.hero h1{font-size:22px}.hero .big-line{font-size:18px}.hero .sub-line{font-size:18px}.card{padding:14px}}
+    .gacha-filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;padding:12px;margin-top:12px;margin-bottom:12px}
+    .gacha-year-btn{background:#FFF1B8!important;box-shadow:0 6px 14px rgba(0,0,0,.12)!important}
+    .gacha-year-btn:hover{background:#fff5c3!important;transform:translateY(-1px)!important}
+    .gacha-year-btn.active{
+      background:linear-gradient(180deg,#FFD95A,#FFEFB0)!important;
+      /* 移除淡淡光暈，只保留較深的投影 */
+      box-shadow:0 12px 30px rgba(0,0,0,.18)!important;
+      border:2px solid rgba(255,199,0,0.9)!important;
+      transform:translateY(-2px)!important;
+      color:#111!important;
+    }
+    .gacha-year-slot{display:none}
+    .gacha-year-slot.active{display:block}
+    .gacha-result-modal{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;display:flex;align-items:center;justify-content:center}
+    .gacha-result-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);cursor:pointer}
+    .gacha-result-container{position:relative;z-index:1001;background:#fff;border-radius:20px;padding:56px 24px 40px;box-shadow:0 20px 60px rgba(0,0,0,.3);max-width:90vw;max-height:90vh;overflow:auto}
+    .gacha-close-btn{position:absolute;top:16px;right:16px;width:40px;height:40px;border:none;border-radius:50%;background:#FFF1B8;color:#111;font-size:24px;font-weight:700;cursor:pointer;transition:background .2s,transform .2s;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:10}
+    .gacha-close-btn:hover{background:#fff5c3;transform:scale(1.1)}
+    .gacha-result-content{display:flex;align-items:flex-start;justify-content:flex-start;flex-shrink:0}
+    .gacha-result-content.ten-pull{align-items:center}
+    .gacha-result-content.single-pull{width:100%;align-items:flex-start}
+    .gacha-card-frame{display:flex;align-items:center;justify-content:center;border:3px solid #FFF1B8;border-radius:12px;background:#f5f5f5;animation:popIn .4s cubic-bezier(0.34, 1.56, 0.64, 1)}
+    @keyframes popIn{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
+    .gacha-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0}
+    .gacha-card-item{aspect-ratio:1;border:3px solid #FFF1B8;border-radius:12px;overflow:hidden;background:#f5f5f5;animation:slideIn .3s ease-out forwards;opacity:0;display:flex;align-items:center;justify-content:center}
+    .gacha-card-item img{width:100%;height:100%;object-fit:cover;display:block}
+    @keyframes slideIn{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="navPanel">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="nav-panel" id="navPanel" aria-hidden="true" aria-label="快速導覽選單">
+    <h2>選單</h2>
+    <ul class="nav-links">
+      <li><a href="#profile" data-nav-link>天馬咲希個人簡介</a></li>
+      <li><a href="#events" data-nav-link>活動與書下曲</a></li>
+      <li><a href="#gallery" data-nav-link>卡面圖鑑</a></li>
+      <li><a href="#gacha" data-nav-link>生日卡抽卡模擬器</a></li>
+      <li><a href="https://www.instagram.com/leeyuz._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">我的IG</a></li>
+    </ul>
+  </nav>
+  <button class="back-to-top-btn" id="backToTopBtn" type="button">↑</button>
+  <header class="hero">
+    <div class="container">
+      <h1>關於天馬咲希的網站</h1>
+      <div class="big-line">"我，想要四個人一起做些什麼！"</div>
+      <div class="sub-line">"過去的遺憾，就由現在來填補吧！"</div>
+      <div class="hero-disclaimer">
+        <p>此網站為LYT.所架設，為非官方網站，若有任合版權上的疑慮將會立即下架有版權疑慮之部分。</p>
+        <p>由於是架設網站新手，請大家多多包涵！</p>
+        <p>有任何問題，歡迎私訊至我的Instagram!</p>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <section id="profile" class="card profile"><div class="profile-box"><img class="profile-main" src="assets/images/saki.png" alt="天馬咲希 形象照" loading="lazy"><img class="profile-hover" src="https://static.wikia.nocookie.net/pjsekai/images/a/aa/%E5%A4%A9%E9%A6%AC%E5%92%B2%E5%B8%8C.png/revision/latest?cb=20231229052932&path-prefix=zh-tw" alt="天馬咲希 變換照片" loading="lazy"></div><div><h2>天馬咲希個人簡介</h2><ul class="meta"><li><strong>生日：</strong><span>5/9</span></li><li><strong>身高：</strong><span>160 cm</span></li><li><strong>喜好：</strong><span>看時尚和化妝視頻、製作串珠飾品</span></li><li><strong>聲優：</strong><span>礒部花凜</span></li><li><strong>擅長的事情：</strong><span>設計髮型、丟沙包</span></li><li><strong>不擅長的事情：</strong><span>孤獨一人</span></li><li><strong>喜歡的食物：</strong><span>零食</span></li><li><strong>不喜歡的食物：</strong><span>粥</span></li></ul></div></section>
+    <section id="events" class="card"><h2>活動和書下曲</h2><div class="events-table-wrap"><table class="events-table" aria-label="活動和書下曲資料表"><colgroup><col style="width:60%"><col style="width:40%"></colgroup><thead><tr><th>活動</th><th>書下曲</th></tr></thead>
+      <tbody>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-01.jpg" alt="雨過天晴的啟明星" loading="lazy"><p>雨過天晴的啟明星</p></div>
+        </td>
+        <td style="width:40%;vertical-align:top;">
+          <div class="activity-item square">
+            <a href="https://www.youtube.com/watch?v=AL6hWKN0WQo" target="_blank" rel="noopener">
+              <img class="stella-link-img" src="https://static.wikia.nocookie.net/projectsekai/images/3/31/Stella_Game_Cover.png/revision/latest?cb=20201029170458" alt="Stella Game Cover" loading="lazy">
+            </a>
+            <p>ステラ</p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-02.jpg" alt="天馬家的女兒節" loading="lazy"><p>天馬家的女兒節</p></div>
+        </td>
+        <td style="width:40%;vertical-align:middle;">
+          <div class="activity-item no-song" style="display:flex;justify-content:center;align-items:center;height:120px;width:100%;">
+            <span style="color:#888;font-size:24px;font-weight:400;letter-spacing:0.5px;">無書下曲</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-03.jpg" alt="無名的和聲" loading="lazy"><p>無名的和聲</p></div>
+        </td>
+        <td style="width:40%;vertical-align:top;">
+          <div class="activity-item square">
+            <a href="https://www.youtube.com/watch?v=G-WN0ab-9ZI" target="_blank" rel="noopener">
+              <img class="stella-link-img" src="https://storage.moegirl.org.cn/moegirl/commons/e/e5/Sekai_song_130.png!/fw/560/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20210709084444" alt="Sekai Song 130" loading="lazy">
+            </a>
+            <p>フロムトーキョー</p>
+          </div>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-04.jpg" alt="No seek, No find" loading="lazy"><p>No seek, No find</p></div>
+        </td>
+        <td style="width:40%;vertical-align:top;">
+          <div class="activity-item square">
+            <a href="https://www.youtube.com/watch?v=diDsFjpV8yw" target="_blank" rel="noopener">
+              <img class="stella-link-img" src="https://storage.moegirl.org.cn/moegirl/commons/f/f2/Sekai_song_257.png!/fw/560/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20220722040137" alt="Sekai Song 257" loading="lazy">
+            </a>
+            <p>てらてら</p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-05.jpg" alt="Get over it." loading="lazy"><p>Get over it.</p></div>
+        </td>
+        <td style="width:40%;vertical-align:top;">
+          <div class="activity-item square">
+            <a href="https://www.youtube.com/watch?v=YfZ6Dv6tC4E" target="_blank" rel="noopener">
+              <img class="stella-link-img" src="https://storage.moegirl.org.cn/moegirl/commons/5/5a/Sekai_song_351.png!/fw/560/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230411030049" alt="Sekai Song 351" loading="lazy">
+            </a>
+            <p>相生</p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-06.jpg" alt="與你編織的珍貴回憶" loading="lazy"><p>與你編織的珍貴回憶</p></div>
+        </td>
+        <td style="width:40%;vertical-align:middle;">
+          <div class="activity-item no-song" style="display:flex;justify-content:center;align-items:center;height:120px;width:100%;">
+            <span style="color:#888;font-size:24px;font-weight:400;letter-spacing:0.5px;">無書下曲</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-07.jpg" alt="交織的和聲" loading="lazy"><p>交織的和聲</p></div>
+        </td>
+        <td style="width:40%;vertical-align:top;">
+          <div class="activity-item square">
+            <a href="https://www.youtube.com/watch?v=Dn1ym4Z416A" target="_blank" rel="noopener">
+              <img class="stella-link-img" src="https://storage.moegirl.org.cn/moegirl/commons/5/58/Sekai_song_442.png!/fw/560/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20240419045427" alt="Sekai Song 442" loading="lazy">
+            </a>
+            <p>すれすれ</p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-08.jpg" alt="Happy Enjoy Music！" loading="lazy"><p>Happy Enjoy Music！</p></div>
+        </td>
+        <td style="width:40%;vertical-align:top;">
+          <div class="activity-item square">
+            <a href="https://www.youtube.com/watch?v=U6jQbe_BuUc" target="_blank" rel="noopener">
+              <img class="stella-link-img" src="https://storage.moegirl.org.cn/moegirl/commons/9/91/Sekai_song_546.png!/fw/560/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20241031050734" alt="Sekai Song 546" loading="lazy">
+            </a>
+            <p>その音が鳴るなら</p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-09.jpg" alt="Connect hearts message" loading="lazy"><p>Connect hearts message</p></div>
+        </td>
+        <td style="width:40%;vertical-align:middle;">
+          <div class="activity-item no-song" style="display:flex;justify-content:center;align-items:center;height:120px;width:100%;">
+            <span style="color:#888;font-size:24px;font-weight:400;letter-spacing:0.5px;">無書下曲</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:60%;vertical-align:top;">
+          <div class="activity-item"><img src="assets/images/events/activity-10.jpg" alt="仰ぐ夜空に、星是紛れて" loading="lazy"><p>仰ぐ夜空に、星は紛れて</p></div>
+        </td>
+        <td style="width:40%;vertical-align:top;">
+          <div class="activity-item square">
+            <a href="https://www.youtube.com/watch?v=bFoOj45VwkE" target="_blank" rel="noopener">
+              <img class="stella-link-img" src="https://storage.moegirl.org.cn/moegirl/commons/f/f6/Sekai_song_695.png!/fw/560/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20251203045421" alt="Sekai Song 695" loading="lazy">
+            </a>
+            <p>花結び</p>
+          </div>
+        </td>
+      </tr>
+      </tbody></table></div></section>
+    <section id="gallery" class="card"><h2>卡面圖鑑</h2><div class="filters">
+      <button class="btn star1 active" type="button" data-star="1">★1</button>
+      <button class="btn star2" type="button" data-star="2">★2</button>
+      <button class="btn star3" type="button" data-star="3">★3</button>
+      <button class="btn star4" type="button" data-star="4">★4</button>
+      <button class="btn star4" type="button" data-star="BD" style="background:#FFB3A0;">BD</button>
+      </div>
+      <div class="gallery-preview">
+        <div class="gallery-images" id="galleryImages">
+          <div class="slot active" data-star="1">
+            <div class="gallery-card">
+              <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/5/55/Sekai_card_5.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121650">
+                <img src="https://storage.moegirl.org.cn/moegirl/commons/5/55/Sekai_card_5.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121650" alt="★1 卡片圖片" loading="lazy">
+              </a>
+              <p>永遠活潑的開心果</p>
+            </div>
+          </div>
+          <div class="slot" data-star="2">
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/c/c4/Sekai_card_6.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121650">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/c/c4/Sekai_card_6.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121650" alt="Leo/need" loading="lazy">
+                </a>
+                <p>Leo/need</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/c/c5/Sekai_card_128.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121656">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/c/c5/Sekai_card_128.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121656" alt="我是體育節組織委員！" loading="lazy">
+                </a>
+                <p>我是體育節組織委員！</p>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/4/46/Sekai_card_283.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121718">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/4/46/Sekai_card_283.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20211009121718" alt="曲奇餅乾聲援" loading="lazy">
+                </a>
+                <p>曲奇餅乾聲援</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/c/c4/Sekai_card_604.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230228024700">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/c/c4/Sekai_card_604.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230228024700" alt="傾注心意，精心準備" loading="lazy">
+                </a>
+                <p>傾注心意，精心準備</p>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/8/81/Sekai_card_687.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230721051000">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/8/81/Sekai_card_687.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230721051000" alt="大家集合～！感謝演出！" loading="lazy">
+                </a>
+                <p>大家集合～！感謝演出！</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/2/26/Sekai_card_725.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230930083042">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/2/26/Sekai_card_725.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230930083042" alt="Brand New Style" loading="lazy">
+                </a>
+                <p>Brand New Style</p>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/b/b9/Sekai_card_777.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20231020151040">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/b/b9/Sekai_card_777.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20231020151040" alt="充滿了歡樂♪" loading="lazy">
+                </a>
+                <p>充滿了歡樂♪</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/9/94/Sekai_card_846.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20231228133318">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/9/94/Sekai_card_846.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20231228133318" alt="帶著一年來的感謝" loading="lazy">
+                </a>
+                <p>帶著一年來的感謝</p>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/2/2d/Sekai_card_871.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20240209035726">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/2/2d/Sekai_card_871.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20240209035726" alt="想讓隊長做的事？" loading="lazy">
+                </a>
+                <p>想讓隊長做的事？</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/b/b5/Sekai_card_977.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20240809023717">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/b/b5/Sekai_card_977.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20240809023717" alt="令人懷念的聯彈" loading="lazy">
+                </a>
+                <p>令人懷念的聯彈</p>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/6/69/Sekai_card_1071.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20250117140733">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/6/69/Sekai_card_1071.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20250117140733" alt="Let's enjoy the movie!" loading="lazy">
+                </a>
+                <p>Let's enjoy the movie!</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/4/4e/Sekai_card_1265.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20251010070056">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/4/4e/Sekai_card_1265.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20251010070056" alt="為了抓住心願！" loading="lazy">
+                </a>
+                <p>為了抓住心願！</p>
+              </div>
+            </div>
+          </div>
+          <div class="slot" data-star="3">
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://static.wikia.nocookie.net/pjsekai/images/5/50/%E6%83%B3%E5%81%9A%E7%9A%84100%E4%BB%B6%E4%BA%8B.png/revision/latest?cb=20201216082609&path-prefix=zh-tw">
+                  <img src="https://static.wikia.nocookie.net/pjsekai/images/5/50/%E6%83%B3%E5%81%9A%E7%9A%84100%E4%BB%B6%E4%BA%8B.png/revision/latest?cb=20201216082609&path-prefix=zh-tw" alt="想做的100件事" loading="lazy">
+                </a>
+                <p>想做的100件事</p>
+                <button id="flowerToggleBtn" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://static.wikia.nocookie.net/pjsekai/images/5/50/%E6%83%B3%E5%81%9A%E7%9A%84100%E4%BB%B6%E4%BA%8B.png/revision/latest?cb=20201216082609&path-prefix=zh-tw" data-after-src="https://static.wikia.nocookie.net/pjsekai/images/2/22/%E6%83%B3%E5%81%9A%E7%9A%84100%E4%BB%B6%E4%BA%8B_%E5%B7%B2%E8%A8%93%E7%B7%B4.png/revision/latest/scale-to-width-down/2048?cb=20240108162722&path-prefix=zh-tw">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://static.wikia.nocookie.net/pjsekai/images/d/df/%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E5%BF%83%E9%A1%98.png/revision/latest/scale-to-width-down/2048?cb=20240110045438&path-prefix=zh-tw">
+                  <img src="https://static.wikia.nocookie.net/pjsekai/images/d/df/%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E5%BF%83%E9%A1%98.png/revision/latest/scale-to-width-down/2048?cb=20240110045438&path-prefix=zh-tw" alt="最重要的心願" loading="lazy">
+                </a>
+                <p>最重要的心願</p>
+                <button id="flowerToggleBtn2" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://static.wikia.nocookie.net/pjsekai/images/d/df/%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E5%BF%83%E9%A1%98.png/revision/latest/scale-to-width-down/2048?cb=20240110045438&path-prefix=zh-tw" data-after-src="https://static.wikia.nocookie.net/pjsekai/images/6/6e/%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E5%BF%83%E9%A1%98_%E5%B7%B2%E8%A8%93%E7%B7%B4.png/revision/latest/scale-to-width-down/2048?cb=20240110045507&path-prefix=zh-tw">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1610172284007_o2ulz69d.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1610172284007_o2ulz69d.webp" alt="暗中支持" loading="lazy">
+                </a>
+                <p>暗中支持</p>
+                <button id="flowerToggleBtn3" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1610172284007_o2ulz69d.webp" data-after-src="https://pjsekai.info/wp-content/uploads/2022/01/saki_3_3_2.jpg">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1645250155007_3qs5ezoj.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1645250155007_3qs5ezoj.webp" alt="未來之星的教導" loading="lazy">
+                </a>
+                <p>未來之星的教導</p>
+                <button id="flowerToggleBtn4" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1645250155007_3qs5ezoj.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1645250155008_tk01hsi2.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1668133246007_qow3capf.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1668133246007_qow3capf.webp" alt="相信大家的溫柔" loading="lazy">
+                </a>
+                <p>相信大家的溫柔</p>
+                <button id="flowerToggleBtn5" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1668133246007_qow3capf.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1668133247008_haxujtnz.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1683772268007_cqszpn8l.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1683772268007_cqszpn8l.webp" alt="感覺像是喬裝的藝人？" loading="lazy">
+                </a>
+                <p>感覺像是喬裝的藝人？</p>
+                <button id="flowerToggleBtn6" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1683772268007_cqszpn8l.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1683772269008_yzuftlrk.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1731202908607_tmb47fxh.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1731202908607_tmb47fxh.webp" alt="睡臉和夢話" loading="lazy">
+                </a>
+                <p>睡臉和夢話</p>
+                <button id="flowerToggleBtn7" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1731202908607_tmb47fxh.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1731202908608_n927wqmf.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1743305402833_5gdwr7ni.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1743305402833_5gdwr7ni.webp" alt="享受如夢似幻般的歡樂時光" loading="lazy">
+                </a>
+                <p>享受如夢似幻般的歡樂時光</p>
+                <button id="flowerToggleBtn8" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1743305402833_5gdwr7ni.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1743305403834_n7i2el9a.webp">花前</button>
+              </div>
+            </div>
+          </div>
+          <div class="slot" data-star="4">
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1608018448011_4f26nh08.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1608018448011_4f26nh08.webp" alt="雨的距離" loading="lazy">
+                </a>
+                <p>雨的距離</p>
+                <button id="flowerToggleBtn9" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1608018448011_4f26nh08.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1608018448012_jr63evt5.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1615342234001_u8f6ny50.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1615342234001_u8f6ny50.webp" alt="最棒的女兒節！" loading="lazy">
+                </a>
+                <p>最棒的女兒節！</p>
+                <button id="flowerToggleBtn10" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1615342234001_u8f6ny50.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1615342234002_ldrh6ux0.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1618985027007_km1nh0dq.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1618985027007_km1nh0dq.webp" alt="窗邊談心" loading="lazy">
+                </a>
+                <p>窗邊談心</p>
+                <button id="flowerToggleBtn11" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1618985027007_km1nh0dq.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1618985027008_f1lzovwr.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1625032052007_26xh5z0n.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1625032052007_26xh5z0n.webp" alt="觸及到的心臟" loading="lazy">
+                </a>
+                <p>觸及到的心臟</p>
+                <button id="flowerToggleBtn12" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1625032052007_26xh5z0n.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1625032053008_fabget5h.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1627698511001_4jarxhyq.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1627698511001_4jarxhyq.webp" alt="魔術表演的助手！" loading="lazy">
+                </a>
+                <p>魔術表演的助手！</p>
+                <button id="flowerToggleBtn13" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1627698511001_4jarxhyq.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1627698511002_k98jqav1.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1636607979007_c2rw3xoa.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1636607979007_c2rw3xoa.webp" alt="為了下一場的演出！" loading="lazy">
+                </a>
+                <p>為了下一場的演出！</p>
+                <button id="flowerToggleBtn14" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1636607979007_c2rw3xoa.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1636607980008_f1zr2joh.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1643604368001_r67uchzk.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1643604368001_r67uchzk.webp" alt="意外的電話" loading="lazy">
+                </a>
+                <p>意外的電話</p>
+                <button id="flowerToggleBtn15" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1643604368001_r67uchzk.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1643604368002_0qmubign.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1650510582007_iu9qf10h.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1650510582007_iu9qf10h.webp" alt="舉杯暢飲最棒的飲料！" loading="lazy">
+                </a>
+                <p>舉杯暢飲最棒的飲料！</p>
+                <button id="flowerToggleBtn16" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1650510582007_iu9qf10h.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1650510582008_uqwl3s9b.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1658372618007_6n7w3o4f.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1658372618007_6n7w3o4f.webp" alt="記憶的深淵" loading="lazy">
+                </a>
+                <p>記憶的深淵</p>
+                <button id="flowerToggleBtn17" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1658372618007_6n7w3o4f.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1658372618008_gyxaetod.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1661913440007_1silhvuy.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1661913440007_1silhvuy.webp" alt="長出一身肌肉了？！" loading="lazy">
+                </a>
+                <p>長出一身肌肉了？！</p>
+                <button id="flowerToggleBtn18" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1661913440007_1silhvuy.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1661913441008_7so8ybu0.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1674252179007_90gwlit2.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1674252179007_90gwlit2.webp" alt="迷迷餬餬的美術課" loading="lazy">
+                </a>
+                <p>迷迷餬餬的美術課</p>
+                <button id="flowerToggleBtn19" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1674252179007_90gwlit2.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1674252179008_apv80i2x.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1681179767007_lrwekbjd.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1681179767007_lrwekbjd.webp" alt="做好接受一切的覺悟" loading="lazy">
+                </a>
+                <p>做好接受一切的覺悟</p>
+                <button id="flowerToggleBtn20" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1681179767007_lrwekbjd.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1681179767008_njt1dzrv.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1690771439001_vxpnd0k6.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1690771439001_vxpnd0k6.webp" alt="在隔板背後" loading="lazy">
+                </a>
+                <p>在隔板背後</p>
+                <button id="flowerToggleBtn21" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1690771439001_vxpnd0k6.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1690771439002_z7ugbfrl.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1694433263001_aigxlz2j.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1694433263001_aigxlz2j.webp" alt="擁抱回憶" loading="lazy">
+                </a>
+                <p>擁抱回憶</p>
+                <button id="flowerToggleBtn22" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1694433263001_aigxlz2j.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1694433264002_2gjzl3hs.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1701776794161_n64jdlrh.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1701776794161_n64jdlrh.webp" alt="feat.布丁狗" loading="lazy">
+                </a>
+                <p>feat.布丁狗</p>
+                <button id="flowerToggleBtn23" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1701776794161_n64jdlrh.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1701776795162_v2omcn5x.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1711766553341_pzd16iq4.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1711766553341_pzd16iq4.webp" alt="飛向天空的祈禱" loading="lazy">
+                </a>
+                <p>飛向天空的祈禱</p>
+                <button id="flowerToggleBtn24" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1711766553341_pzd16iq4.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1711766554342_i8fdnc19.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1713585100375_g0yrpo58.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1713585100375_g0yrpo58.webp" alt="只剩一人的房間" loading="lazy">
+                </a>
+                <p>只剩一人的房間</p>
+                <button id="flowerToggleBtn25" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1713585100375_g0yrpo58.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1713585100376_8o3mqcb0.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1721221800479_9x234aov.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1721221800479_9x234aov.webp" alt="因為四個人在一起" loading="lazy">
+                </a>
+                <p>因為四個人在一起</p>
+                <button id="flowerToggleBtn26" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1721221800479_9x234aov.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1721221800480_mh28o67e.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1726798513553_dhx6lrew.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1726798513553_dhx6lrew.webp" alt="那天的憧憬" loading="lazy">
+                </a>
+                <p>那天的憧憬</p>
+                <button id="flowerToggleBtn27" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1726798513553_dhx6lrew.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1726798514554_m0aw2ygd.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1730342692601_po59gqtn.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1730342692601_po59gqtn.webp" alt="充滿著快樂和幸福的演奏" loading="lazy">
+                </a>
+                <p>充滿著快樂和幸福的演奏</p>
+                <button id="flowerToggleBtn28" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1730342692601_po59gqtn.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1730342692602_mtvyld6i.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1737459966709_qutmp5vl.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1737459966709_qutmp5vl.webp" alt="謝意滿滿！" loading="lazy">
+                </a>
+                <p>謝意滿滿！</p>
+                <button id="flowerToggleBtn29" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1737459966709_qutmp5vl.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1737459967710_0b1orq95.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1740754945793_l2n3ufce.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1740754945793_l2n3ufce.webp" alt="舉步維艱！策劃會議" loading="lazy">
+                </a>
+                <p>舉步維艱！策劃會議</p>
+                <button id="flowerToggleBtn30" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1740754945793_l2n3ufce.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1740754946794_kv542fpd.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1750648034927_wg7ocrb8.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1750648034927_wg7ocrb8.webp" alt="Ace player！" loading="lazy">
+                </a>
+                <p>Ace player！</p>
+                <button id="flowerToggleBtn31" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1750648034927_wg7ocrb8.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1750648035928_woybcx1d.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1759232123877_jh6slydq.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1759232123877_jh6slydq.webp" alt="Lucky ice！" loading="lazy">
+                </a>
+                <p>Lucky ice！</p>
+                <button id="flowerToggleBtn32" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1759232123877_jh6slydq.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1759232124878_co5r3zhf.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1764471285977_8jmdxq6s.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1764471285977_8jmdxq6s.webp" alt="夜風吹拂下的真心話" loading="lazy">
+                </a>
+                <p>夜風吹拂下的真心話</p>
+                <button id="flowerToggleBtn33" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1764471285977_8jmdxq6s.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1764471286978_7ocythpk.webp">花前</button>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1770692695089_9zh7wuo4.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1770692695089_9zh7wuo4.webp" alt="著名製作人登場！" loading="lazy">
+                </a>
+                <p>著名製作人登場！</p>
+                <button id="flowerToggleBtn34" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1770692695089_9zh7wuo4.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1770692696090_2w5zi68c.webp">花前</button>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://pjsekai.gamedbs.jp/image/chara/member/1777518961211_o164ynbc.webp">
+                  <img src="https://pjsekai.gamedbs.jp/image/chara/member/1777518961211_o164ynbc.webp" alt="未曾料想的偶遇！" loading="lazy">
+                </a>
+                <p>未曾料想的偶遇！</p>
+                <button id="flowerToggleBtn35" class="toggle-image-button flower-toggle-btn" type="button" data-state="before" data-before-src="https://pjsekai.gamedbs.jp/image/chara/member/1777518961211_o164ynbc.webp" data-after-src="https://pjsekai.gamedbs.jp/image/chara/member/1777518976212_236dva58.webp">花前</button>
+              </div>
+            </div>
+          </div>
+          <div class="slot" data-star="BD">
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/1/15/Sekai_card_427.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20220429223309">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/1/15/Sekai_card_427.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20220429223309" alt="Happy Birthday！！" loading="lazy">
+                </a>
+                <p>Happy Birthday！！</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/6/6b/Sekai_card_641.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230428022034">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/6/6b/Sekai_card_641.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20230428022034" alt="Happy Birthday！！2023" loading="lazy">
+                </a>
+                <p>Happy Birthday！！2023</p>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/6/64/Sekai_card_920.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20240502083419">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/6/64/Sekai_card_920.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20240502083419" alt="Happy Birthday！！2024" loading="lazy">
+                </a>
+                <p>Happy Birthday！！2024</p>
+              </div>
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/c/c5/Sekai_card_1168.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20250430050730">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/c/c5/Sekai_card_1168.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20250430050730" alt="Happy Birthday！！2025" loading="lazy">
+                </a>
+                <p>Happy Birthday！！2025</p>
+              </div>
+            </div>
+            <div class="custom-image-row">
+              <div class="custom-card">
+                <a href="#" data-fullsrc="https://storage.moegirl.org.cn/moegirl/commons/e/e7/Sekai_card_1385.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20260430015907">
+                  <img src="https://storage.moegirl.org.cn/moegirl/commons/e/e7/Sekai_card_1385.png!/fw/1200/watermark/url/L21vZWdpcmwvd2F0ZXJtYXJrLnBuZw==/align/southeast/margin/10x10/opacity/50?v=20260430015907" alt="Happy Birthday！！2026" loading="lazy">
+                </a>
+                <p>Happy Birthday！！2026</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="gacha" class="card">
+      <h2>生日卡抽卡模擬器</h2>
+      <div class="gacha-filters">
+        <button class="btn gacha-year-btn" data-year="2022" type="button">2022</button>
+        <button class="btn gacha-year-btn" data-year="2023" type="button">2023</button>
+        <button class="btn gacha-year-btn" data-year="2024" type="button">2024</button>
+        <button class="btn gacha-year-btn" data-year="2025" type="button">2025</button>
+        <button class="btn gacha-year-btn" data-year="2026" type="button">2026</button>
+      </div>
+      <div class="gacha-year-slot active" data-year="2022">
+        <div class="gacha-controls">
+          <button class="btn" type="button">單抽</button>
+          <button class="btn" type="button">十連抽</button>
+        </div>
+      </div>
+      <div class="gacha-year-slot" data-year="2023">
+        <div class="gacha-controls">
+          <button class="btn" type="button">單抽</button>
+          <button class="btn" type="button">十連抽</button>
+        </div>
+      </div>
+      <div class="gacha-year-slot" data-year="2024">
+        <div class="gacha-controls">
+          <button class="btn" type="button">單抽</button>
+          <button class="btn" type="button">十連抽</button>
+        </div>
+      </div>
+      <div class="gacha-year-slot" data-year="2025">
+        <div class="gacha-controls">
+          <button class="btn" type="button">單抽</button>
+          <button class="btn" type="button">十連抽</button>
+        </div>
+      </div>
+      <div class="gacha-year-slot" data-year="2026">
+        <div class="gacha-controls">
+          <button class="btn" type="button">單抽</button>
+          <button class="btn" type="button">十連抽</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="modal" class="modal" aria-hidden="true"><div class="modal-dialog" role="dialog" aria-modal="true"><button class="modal-close" id="modalClose" aria-label="關閉">✕</button><div id="modalContent"></div></div></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggle = document.getElementById('menuToggle');
+      const navPanel = document.getElementById('navPanel');
+      const closeNav = () => {
+        navPanel.setAttribute('aria-hidden', 'true');
+        navPanel.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      };
+      const openNav = () => {
+        navPanel.setAttribute('aria-hidden', 'false');
+        navPanel.classList.add('open');
+        menuToggle.setAttribute('aria-expanded', 'true');
+      };
+      menuToggle.addEventListener('click', () => {
+        const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        expanded ? closeNav() : openNav();
+      });
+      // 點選帶有 data-nav-link 的連結時，阻止預設跳轉，改用 showSection 切換視圖
+      const navLinks = document.querySelectorAll('[data-nav-link]');
+      const showSection = (id, updateHash = true) => {
+        // 隱藏所有主要區塊與 footer
+        document.querySelectorAll('main > section, footer#footerSection').forEach(el => el.classList.remove('active'));
+        const target = document.getElementById(id);
+        if (target) {
+          target.classList.add('active');
+          // scrollIntoView 讓切換後畫面聚焦於區塊
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (updateHash) history.replaceState(null, '', `#${id}`);
+        }
+        closeNav();
+      };
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const href = link.getAttribute('href') || link.dataset.target || '';
+          const id = href.startsWith('#') ? href.slice(1) : href;
+          if (id) showSection(id);
+        });
+      });
+      // 預設顯示：若有 hash 使用該區塊，否則不切換（保持頁面頂端）
+      const startId = location.hash ? location.hash.slice(1) : '';
+      // 延遲一個微任務，確保 DOM 與 CSS 生效後再顯示（只有有 startId 才切換）
+      if (startId) setTimeout(() => showSection(startId, false), 10);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+      const backToTopBtn = document.getElementById('backToTopBtn');
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      }
+      // 重新整理後直接回到最頂端
+      window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+      window.addEventListener('pageshow', () => window.scrollTo(0, 0));
+      const modal = document.getElementById('modal');
+      const modalClose = document.getElementById('modalClose');
+      const modalContent = document.getElementById('modalContent');
+      const openModal = html => {
+        modalContent.innerHTML = html;
+        document.body.style.overflow = 'hidden';
+        modal.setAttribute('aria-hidden', 'false');
+      };
+      const closeModal = () => { modal.setAttribute('aria-hidden', 'true'); modalContent.innerHTML = ''; document.body.style.overflow = ''; };
+      modalClose.addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+      // 移除filters .btn的彈窗行為，改為切換星級
+      const starBtns = document.querySelectorAll('.filters .btn');
+      const gallerySlots = document.querySelectorAll('.gallery-images .slot');
+      const showStarGallery = (star) => {
+        gallerySlots.forEach(slot => {
+          const isActive = slot.dataset.star === star;
+          slot.classList.toggle('active', isActive);
+        });
+        starBtns.forEach(b => b.classList.toggle('active', b.dataset.star === star));
+      };
+      starBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const star = btn.dataset.star || '1';
+          showStarGallery(star);
+        });
+      });
+      const bdBtn = document.querySelector('.btn.bd');
+      const star4Btn = document.querySelector('.btn.star4');
+      if (bdBtn && star4Btn) {
+        const syncBDSize = () => {
+          const rect = star4Btn.getBoundingClientRect();
+          bdBtn.style.width = `${Math.round(rect.width)}px`;
+          bdBtn.style.height = `${Math.round(rect.height)}px`;
+        };
+        syncBDSize();
+        window.addEventListener('resize', syncBDSize);
+      }
+      document.querySelectorAll('.gallery-images .slot a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const fullSrc = link.dataset.fullsrc || link.querySelector('img')?.src;
+          const alt = link.querySelector('img')?.alt || '';
+          if (fullSrc) {
+            openModal(`
+              <div class="modal-image-wrap">
+                <img src="${fullSrc}" alt="${alt}" />
+              </div>
+            `);
+            setTimeout(() => {
+              const modalImg = modalContent.querySelector('.modal-image-wrap img');
+              if (!modalImg) return;
+              let isZoomed = false;
+              const updateTransform = () => {
+                modalImg.style.transform = isZoomed ? 'scale(2.5)' : 'scale(1)';
+              };
+              modalImg.addEventListener('click', (event) => {
+                const rect = modalImg.getBoundingClientRect();
+                const x = ((event.clientX - rect.left) / rect.width) * 100;
+                const y = ((event.clientY - rect.top) / rect.height) * 100;
+                isZoomed = !isZoomed;
+                if (isZoomed) {
+                  modalImg.classList.add('zoomed');
+                  modalImg.style.transformOrigin = `${x}% ${y}%`;
+                } else {
+                  modalImg.classList.remove('zoomed');
+                  modalImg.style.transformOrigin = 'center center';
+                }
+                updateTransform();
+              });
+            }, 0);
+          }
+        });
+      });
+      // 年份篩選功能：切換年份區塊並為目前按鈕加黃色外框
+      const gachaYearBtns = document.querySelectorAll('.gacha-year-btn');
+      gachaYearBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const year = btn.dataset.year;
+          // 隱藏所有年份區塊
+          document.querySelectorAll('.gacha-year-slot').forEach(slot => slot.classList.remove('active'));
+          // 顯示選中的年份區塊
+          const target = document.querySelector(`.gacha-year-slot[data-year="${year}"]`);
+          if (target) target.classList.add('active');
+          // 更新按鈕外框狀態：移除其他 active，為點擊的按鈕加上 active
+          gachaYearBtns.forEach(b => b.classList.toggle('active', b === btn));
+        });
+      });
+
+      // 初始化：若有 active 的年份區塊，將對應按鈕加上 active 樣式
+      (function initGachaYearActive(){
+        const activeSlot = document.querySelector('.gacha-year-slot.active');
+        const activeYear = activeSlot ? activeSlot.dataset.year : '2022';
+        gachaYearBtns.forEach(b => b.classList.toggle('active', b.dataset.year === activeYear));
+      })();
+      document.querySelectorAll('.flower-toggle-btn').forEach(button => {
+        const beforeSrc = button.dataset.beforeSrc;
+        const afterSrc = button.dataset.afterSrc;
+        const targetLink = button.closest('.custom-card').querySelector('a');
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isBefore = button.dataset.state === 'before';
+          button.dataset.state = isBefore ? 'after' : 'before';
+          button.textContent = isBefore ? '花後' : '花前';
+          const nextSrc = isBefore ? afterSrc : beforeSrc;
+          targetLink.dataset.fullsrc = nextSrc;
+          const img = targetLink.querySelector('img');
+          const preloadImg = new Image();
+          preloadImg.onload = () => {
+            img.addEventListener('transitionend', function handler() {
+              img.removeEventListener('transitionend', handler);
+              img.src = nextSrc;
+              setTimeout(() => { img.style.opacity = '1'; }, 20);
+            });
+            img.style.opacity = '0';
+          };
+          preloadImg.src = nextSrc;
+        });
+      });
+      
+      // 抽卡系統
+      const cardData = {
+        twoStar: [
+          'https://pjsekai.gamedbs.jp/image/chara/member/1608018444007_u1p8zbst.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1608018449013_4ygei0dk.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1631252515007_4pkn3zfr.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1689906468007_kfve6qu2.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1696046166013_kh73u6fs.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1697945024105_0ih758bc.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1703991556231_eic1n3od.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1707525981289_kyjvz26e.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1723173644503_bwvq0h5l.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1760152241905_b04z1k3i.webp'
+        ],
+        threeStar: [
+          'https://pjsekai.gamedbs.jp/image/chara/member/1608018445009_609v5sl3.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1609322226001_no4xvgc1.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1645250155007_3qs5ezoj.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1610172284007_o2ulz69d.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1668133246007_qow3capf.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1683772268007_cqszpn8l.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1731202908607_tmb47fxh.webp',
+          'https://pjsekai.gamedbs.jp/image/chara/member/1743305402833_5gdwr7ni.webp'
+        ],
+        birthday: {
+          '2022': 'https://pjsekai.gamedbs.jp/image/chara/member/1651119151001_ptregi15.webp',
+          '2023': 'https://pjsekai.gamedbs.jp/image/chara/member/1682821272001_hgdj3wn9.webp',
+          '2024': 'https://pjsekai.gamedbs.jp/image/chara/member/1715210488391_oivu0x2g.webp',
+          '2025': 'https://pjsekai.gamedbs.jp/image/chara/member/1745985562863_qnhv40cl.webp',
+          '2026': 'https://pjsekai.gamedbs.jp/image/chara/member/1777518962217_pemg0hwy.webp'
+        }
+      };
+
+      let pullCount = 0;
+      let guaranteedPity = false;
+
+      function getRandomCard(rarity) {
+        if (rarity === 2) {
+          return cardData.twoStar[Math.floor(Math.random() * cardData.twoStar.length)];
+        } else if (rarity === 3) {
+          return cardData.threeStar[Math.floor(Math.random() * cardData.threeStar.length)];
+        }
+      }
+
+      function getRandomRarity(pullNum = null) {
+        const rand = Math.random() * 100;
+        if (pullNum === 10 && !guaranteedPity) {
+          guaranteedPity = true;
+          return Math.random() > 0.5 ? 3 : 'birthday';
+        }
+        if (rand <= 3) return 'birthday';
+        if (rand <= 11.5) return 3;
+        return 2;
+      }
+
+      function gachaPull(count = 1, year) {
+        const results = [];
+        pullCount += count;
+
+        for (let i = 0; i < count; i++) {
+          let rarity = getRandomRarity(count === 10 ? 10 : null);
+
+          if (pullCount % 100 === 0) {
+            rarity = 'birthday';
+          }
+
+          let card;
+          if (rarity === 'birthday') {
+            card = { rarity: 'birthday', src: cardData.birthday[year] };
+            guaranteedPity = false;
+          } else {
+            card = { rarity, src: getRandomCard(rarity) };
+          }
+
+          results.push(card);
+        }
+
+        if (count === 10) {
+          guaranteedPity = false;
+        }
+
+        return results;
+      }
+
+      function displayGachaResult(cards, isSinglePull, year) {
+        const gachaModal = document.createElement('div');
+        gachaModal.className = 'gacha-result-modal';
+        gachaModal.innerHTML = `
+          <div class="gacha-result-overlay"></div>
+          <div class="gacha-result-container">
+            <button class="gacha-close-btn" aria-label="關閉">✕</button>
+            <div class="gacha-result-content"></div>
+          </div>
+        `;
+        document.body.appendChild(gachaModal);
+
+        const contentDiv = gachaModal.querySelector('.gacha-result-content');
+        const closeBtn = gachaModal.querySelector('.gacha-close-btn');
+
+          const grid = document.createElement('div');
+          grid.className = 'gacha-grid';
+
+          if (isSinglePull) {
+            contentDiv.classList.add('single-pull');
+            // Render single pull inside the same 5-column grid so it appears top-left
+            const card = cards[0];
+            const cardEl = document.createElement('div');
+            cardEl.className = 'gacha-card-item';
+            cardEl.style.animationDelay = `0s`;
+            cardEl.innerHTML = `<img src="${card.src}" alt="卡片1">`;
+            grid.appendChild(cardEl);
+          } else {
+            contentDiv.classList.add('ten-pull');
+            // Render in given order (no sorting) so results keep original sequence
+            cards.forEach((card, idx) => {
+              const cardEl = document.createElement('div');
+              cardEl.className = 'gacha-card-item';
+              cardEl.style.animationDelay = `${idx * 0.1}s`;
+              cardEl.innerHTML = `<img src="${card.src}" alt="卡片${idx + 1}">`;
+              grid.appendChild(cardEl);
+            });
+          }
+
+          contentDiv.appendChild(grid);
+        closeBtn.addEventListener('click', () => gachaModal.remove());
+        gachaModal.querySelector('.gacha-result-overlay').addEventListener('click', () => gachaModal.remove());
+      }
+
+      // 單抽按鈕
+      document.querySelectorAll('.gacha-year-slot .gacha-controls').forEach(control => {
+        const buttons = control.querySelectorAll('.btn');
+        const year = control.closest('.gacha-year-slot').dataset.year;
+        
+        if (buttons[0]) {
+          buttons[0].addEventListener('click', () => {
+            const result = gachaPull(1, year);
+            displayGachaResult(result, true, year);
+          });
+        }
+
+        if (buttons[1]) {
+          buttons[1].addEventListener('click', () => {
+            const result = gachaPull(10, year);
+            displayGachaResult(result, false, year);
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
