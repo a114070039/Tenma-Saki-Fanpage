@@ -70,6 +70,7 @@
     .card h2 { margin-top: 0; font-size: 1.75rem; }
     .grid { display: grid; gap: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .profile { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .profile > div:last-child { display: flex; flex-direction: column; justify-content: flex-end; }
     .profile-box { position: relative; overflow: hidden; border-radius: 24px; }
     .profile-main {
       display: block;
@@ -96,8 +97,10 @@
     }
     .profile-box:hover .profile-hover { opacity: 1; }
     .profile-box:hover .profile-main { opacity: 0; }
-    .meta { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; color: #444; }
-    .meta li { display: flex; gap: 8px; align-items: baseline; }
+    .profile .meta { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; color: #444; font-size: 1.28rem; line-height: 1.9; width: 100%; }
+    .profile .meta li { display: flex; gap: 8px; align-items: center; }
+    .profile .meta strong { font-size: 1.32rem; }
+    .profile .meta span { font-size: 1.22rem; }
     .btn { display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(34,34,34,.12); border-radius: 999px; background: #fff; color: #222; padding: 12px 20px; cursor: pointer; transition: transform .2s, box-shadow .2s, background-color .2s, color .2s; }
     .btn.star1 { background: #daf7f0; color: #113740; }
     .btn.star2 { background: #e7eef7; color: #21334d; }
@@ -377,7 +380,7 @@
     </div>
   </header>
   <main class="container">
-    <section id="profile" class="card profile"><div class="profile-box"><img class="profile-main" src="assets/images/saki.png" alt="天馬咲希 形象照" loading="lazy"><img class="profile-hover" src="https://static.wikia.nocookie.net/pjsekai/images/a/aa/%E5%A4%A9%E9%A6%AC%E5%92%B2%E5%B8%8C.png/revision/latest?cb=20231229052932&path-prefix=zh-tw" alt="天馬咲希 變換照片" loading="lazy"></div><div><h2>天馬咲希個人簡介</h2><ul class="meta"><li><strong>生日：</strong><span>5/9</span></li><li><strong>身高：</strong><span>160 cm</span></li><li><strong>喜好：</strong><span>看時尚和化妝視頻、製作串珠飾品</span></li><li><strong>聲優：</strong><span>礒部花凜</span></li><li><strong>擅長的事情：</strong><span>設計髮型、丟沙包</span></li><li><strong>不擅長的事情：</strong><span>孤獨一人</span></li><li><strong>喜歡的食物：</strong><span>零食</span></li><li><strong>不喜歡的食物：</strong><span>粥</span></li></ul></div></section>
+    <section id="profile" class="card profile"><div class="profile-box"><img class="profile-main" src="assets/images/saki.png" alt="天馬咲希 形象照" loading="lazy"><img class="profile-hover" src="assets/images/%253F%253F%253F%253F.webp" alt="天馬咲希 變換照片" loading="lazy"></div><div><h2>天馬咲希個人簡介</h2><ul class="meta"><li><strong>生日：</strong><span>5/9</span></li><li><strong>身高：</strong><span>160 cm</span></li><li><strong>喜好：</strong><span>看時尚和化妝視頻、製作串珠飾品</span></li><li><strong>聲優：</strong><span>礒部花凜</span></li><li><strong>擅長的事情：</strong><span>設計髮型、丟沙包</span></li><li><strong>不擅長的事情：</strong><span>孤獨一人</span></li><li><strong>喜歡的食物：</strong><span>零食</span></li><li><strong>不喜歡的食物：</strong><span>粥</span></li></ul></div></section>
     <section id="events" class="card"><h2>活動和書下曲</h2><div class="events-table-wrap"><table class="events-table" aria-label="活動和書下曲資料表"><colgroup><col style="width:60%"><col style="width:40%"></colgroup><thead><tr><th>活動</th><th>書下曲</th></tr></thead>
       <tbody>
       <tr>
@@ -387,7 +390,7 @@
         <td style="width:40%;vertical-align:top;">
           <div class="activity-item square">
             <a href="https://www.youtube.com/watch?v=AL6hWKN0WQo" target="_blank" rel="noopener">
-              <img class="stella-link-img" src="https://static.wikia.nocookie.net/projectsekai/images/3/31/Stella_Game_Cover.png/revision/latest?cb=20201029170458" alt="Stella Game Cover" loading="lazy">
+              <img class="stella-link-img" src="assets/images/Stella_Game_Cover.webp" alt="Stella Game Cover" loading="lazy">
             </a>
             <p>ステラ</p>
           </div>
